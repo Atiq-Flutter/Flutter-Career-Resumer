@@ -59,11 +59,11 @@ class _LoginState extends State<Login> {
                   if (formkey.currentState!.validate()) {
                     await FirebaseBackend.confirmMobileNumber(
                         '+91' + loginController.text);
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(
-                    //     builder: (ctx) => ConfirmOtp(),
-                    //   ),
-                    // );
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) => ConfirmOtp(),
+                      ),
+                    );
                   }
                 },
                 child: const Text('Get Otp'),

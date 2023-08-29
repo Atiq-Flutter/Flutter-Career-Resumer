@@ -35,4 +35,19 @@ class FirebaseBackend {
       print('okay' + e.toString());
     }
   }
+
+  static verifyOTP(String otp) async {
+    print('otp----------$otp');
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: _verificationId!, smsCode: otp);
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      if (userCredential.user != null) {
+        print('userCredential.user != null----------$otp');
+      }
+    } on FirebaseAuthException catch (error) {
+      print("exception is : ${error.code.toString()}");
+    }
+  }
 }

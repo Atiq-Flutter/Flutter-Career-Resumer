@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:resume_creator/HomePage.dart';
 import 'package:resume_creator/auth/firebase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'firebase.dart';
 
 class ConfirmOtp extends StatefulWidget {
   ConfirmOtp({super.key});
@@ -37,10 +38,7 @@ class _ConfirmOtpState extends State<ConfirmOtp> {
               TextFormField(
                 controller: otpController,
                 validator: (value) {
-                  if (value!.isEmpty ||
-                      value.length < 6 ||
-                      value.length > 6 ||
-                      value != '123456') {
+                  if (value!.isEmpty || value.length < 6 || value.length > 6) {
                     return 'Enter correct otp';
                   }
                   return null;
@@ -64,9 +62,10 @@ class _ConfirmOtpState extends State<ConfirmOtp> {
               ElevatedButton(
                 onPressed: () async {
                   if (formkey.currentState!.validate()) {
-                    SharedPreferences prefer =
-                        await SharedPreferences.getInstance();
-                    prefer.setBool('isLogin', true);
+                    await FirebaseBackend.verifyOTP(otpController.text);
+                    // SharedPreferences prefer =
+                    //     await SharedPreferences.getInstance();
+                    // prefer.setBool('isLogin', true);
 
                     // Navigator.of(context).push(
                     //   MaterialPageRoute(
