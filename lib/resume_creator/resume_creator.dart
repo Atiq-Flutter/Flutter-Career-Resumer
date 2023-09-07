@@ -43,7 +43,7 @@ class _ResumeCreatorState extends State<ResumeCreator> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Details'),
       ),
       body: ListView.builder(
           itemCount: creators.length,

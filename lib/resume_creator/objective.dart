@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../auth/firebase.dart';
 
 class Objective extends StatefulWidget {
   const Objective({super.key});
@@ -70,7 +73,12 @@ class _ObjectiveState extends State<Objective> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      if (formkey.currentState!.validate()) {}
+                      if (formkey.currentState!.validate()) {
+                        FirebaseAuth auth = FirebaseAuth.instance;
+                        final User? user = auth.currentUser;
+                        FirebaseBackend.addObjective(
+                            user!.uid, objectiveController.text);
+                      }
                     },
                     child: const Text('Add Details'),
                   ),

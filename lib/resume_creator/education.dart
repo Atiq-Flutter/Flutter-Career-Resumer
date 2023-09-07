@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../auth/firebase.dart';
 
 class Education extends StatefulWidget {
   const Education({super.key});
@@ -159,7 +162,16 @@ class _EducationState extends State<Education> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      if (formkey.currentState!.validate()) {}
+                      if (formkey.currentState!.validate()) {
+                        FirebaseAuth auth = FirebaseAuth.instance;
+                        final User? user = auth.currentUser;
+                        FirebaseBackend.addEducation(
+                            user!.uid,
+                            courseController.text,
+                            schoolController.text,
+                            gradeController.text,
+                            yearController.text);
+                      }
                     },
                     child: const Text('Add Details'),
                   ),

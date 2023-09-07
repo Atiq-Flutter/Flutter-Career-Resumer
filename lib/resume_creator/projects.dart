@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../auth/firebase.dart';
 
 class Projects extends StatefulWidget {
   const Projects({super.key});
@@ -100,7 +103,12 @@ class _ProjectsState extends State<Projects> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      if (formkey.currentState!.validate()) {}
+                      if (formkey.currentState!.validate()) {
+                        FirebaseAuth auth = FirebaseAuth.instance;
+                        final User? user = auth.currentUser;
+                        FirebaseBackend.addProject(user!.uid,
+                            titleController.text, descriptionController.text);
+                      }
                     },
                     child: const Text('Add Details'),
                   ),

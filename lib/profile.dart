@@ -1,31 +1,35 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:resume_creator/HomePage.dart';
+import 'package:resume_creator/auth/firebase.dart';
+import 'package:resume_creator/resume_creator/resume_creator.dart';
 
-import '../auth/firebase.dart';
-
-class Skills extends StatefulWidget {
-  const Skills({super.key});
+class Profile extends StatefulWidget {
   @override
-  State<Skills> createState() {
-    return _SkillsState();
+  State<Profile> createState() {
+    return _ProfileState();
   }
 }
 
-class _SkillsState extends State<Skills> {
-  var formkey = GlobalKey<FormState>();
-  void resetForm() {
-    setState(() {
-      nameController.clear();
-    });
+class _ProfileState extends State<Profile> {
+  getuid() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
   }
 
-  TextEditingController nameController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
+  var formkey = GlobalKey<FormState>();
+  TextEditingController profileController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Skills'),
+        title: const Text('Profile'),
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -36,16 +40,16 @@ class _SkillsState extends State<Skills> {
                 alignment: Alignment.topLeft,
                 padding: const EdgeInsetsDirectional.all(7),
                 child: const Text(
-                  'Skills',
+                  'Profile Name',
                   style: TextStyle(fontSize: 16, color: Colors.blue),
                 ),
               ),
               TextFormField(
                 textInputAction: TextInputAction.next,
-                controller: nameController,
+                controller: profileController,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Enter Your Skills';
+                    return 'Enter Profile Name';
                   }
                   return null;
                 },
@@ -54,7 +58,7 @@ class _SkillsState extends State<Skills> {
                   isDense: true,
                   border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.teal)),
-                  labelText: 'Skills',
+                  labelText: 'Profile Name',
                   labelStyle: const TextStyle(fontSize: 13),
                   prefixIcon: Container(
                     transform: Matrix4.translationValues(0.0, 0.0, 0.0),
@@ -76,20 +80,19 @@ class _SkillsState extends State<Skills> {
                       if (formkey.currentState!.validate()) {
                         FirebaseAuth auth = FirebaseAuth.instance;
                         final User? user = auth.currentUser;
-                        FirebaseBackend.addSkills(
-                            user!.uid, nameController.text);
+                        FirebaseBackend.createResume(
+                            user!.uid, profileController.text);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (ctx) => const ResumeCreator(),
+                          ),
+                        );
                       }
                     },
-                    child: const Text('Add Details'),
+                    child: const Text('Next'),
                   ),
                   const SizedBox(
                     width: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      resetForm();
-                    },
-                    child: const Text('Reset Details'),
                   ),
                 ],
               )

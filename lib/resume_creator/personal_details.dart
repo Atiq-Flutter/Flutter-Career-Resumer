@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:resume_creator/resume_creator/imagepicker.dart';
+
+import '../auth/firebase.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({super.key});
@@ -28,6 +31,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -173,6 +177,13 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       height: 20,
                     ),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Color.alphaBlend(Colors.blueGrey, Colors.blue),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -186,8 +197,24 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.alphaBlend(
+                                Color.fromARGB(255, 137, 10, 135), Colors.blue),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
                           onPressed: () {
-                            if (formkey.currentState!.validate()) {}
+                            if (formkey.currentState!.validate()) {
+                              FirebaseAuth auth = FirebaseAuth.instance;
+                              final User? user = auth.currentUser;
+                              FirebaseBackend.addPersonal(
+                                  user!.uid,
+                                  nameController.text,
+                                  adressController.text,
+                                  emailController.text,
+                                  phoneController.text);
+                            }
                           },
                           child: const Text('Add Details'),
                         ),
@@ -195,6 +222,13 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           width: 20,
                         ),
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.alphaBlend(
+                                Color.fromARGB(255, 48, 93, 8), Colors.blue),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
                           onPressed: () {
                             resetForm();
                           },

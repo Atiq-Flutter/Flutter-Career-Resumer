@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:resume_creator/HomePage.dart';
 import 'package:resume_creator/auth/firebase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'firebase.dart';
 
 class ConfirmOtp extends StatefulWidget {
-  ConfirmOtp({super.key});
+  const ConfirmOtp({super.key});
 
   void getotp() async {
     SharedPreferences prefer = await SharedPreferences.getInstance();
@@ -67,11 +66,11 @@ class _ConfirmOtpState extends State<ConfirmOtp> {
                     //     await SharedPreferences.getInstance();
                     // prefer.setBool('isLogin', true);
 
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(
-                    //     builder: (ctx) => const HomePage(),
-                    //   ),
-                    // );
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) => const HomePage(),
+                      ),
+                    );
                   }
                 },
                 child: const Text('Confirm'),
